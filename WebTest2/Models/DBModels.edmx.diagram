@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e9545fd36cf64f1094235d3ca4174096" Name="Diagram1">
+        <EntityTypeShape EntityType="DBModel.factors_name_table" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.items_in_factor_table" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.list_module_name_table" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.rtm_table" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.test_case_table" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.test_scenario_table" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="DBModel.FK_factors_name_table_factors_name_table" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_items_in_factor_table_factors_name_table" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_test_scenario_table_items_in_factor_table" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_rtm_table_list_module_name_table" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_test_scenario_table_test_case_table" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

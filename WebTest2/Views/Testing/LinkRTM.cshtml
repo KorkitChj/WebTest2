@@ -1,0 +1,112 @@
+﻿@model IEnumerable<WebTest2.Models.rtm_table>
+
+@{
+    ViewBag.Title = "Link RTM";
+}
+
+<h2>RTM</h2>
+@if (TempData["MessageRTM"] != null && TempData["StatusRTM"].ToString() == "true")
+{
+<div class="alert alert-success" role="alert">
+         @TempData["MessageRTM"].ToString()
+</div>
+}else if(TempData["MessageRTM"] != null && TempData["StatusRTM"].ToString() == "false")
+{
+<div class="alert alert-danger" role="alert">
+    @TempData["MessageRTM"].ToString()
+</div>
+}
+<button type="button" class="btn btn-light">@Html.ActionLink("Add New RTM", "add_new_rtm", new { id = @ViewBag.Module_id, module_name = @ViewBag.MName })</button>
+<div>
+    @*<h4>rtm_table</h4>*@
+    @*<h4>@ViewBag.Module_id</h4>*@
+    @*<h4>@ViewBag.MName</h4>*@
+    <hr />
+
+    <div class="container">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Req.ID</th>
+                    <th scope="col">Req.Description</th>
+                    <th scope="col">Design Specification Reference No(s)</th>
+                    <th scope="col">Program_module</th>
+                    <th scope="col">Test Reference Number(s)</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Status Date</th>
+                    <th scope="col">Comments</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @try
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.req_id)</td>
+                            <td>@Html.DisplayFor(modelItem => item.req_description)</td>
+                            <td>@Html.DisplayFor(modelItem => item.design_specification_reference_number)</td>
+                            <td>@Html.DisplayFor(modelItem => item.program_module)</td>
+                            <td>@Html.DisplayFor(modelItem => item.test_reference_number)</td>
+                            <td>@Html.DisplayFor(modelItem => item.status)</td>
+                            <td>@Html.DisplayFor(modelItem => item.status_date)</td>
+                            <td>@Html.DisplayFor(modelItem => item.comments)</td>
+                            <td>@Html.ActionLink("Delete", "del_rtm",new { id = item.req_id,module_id = @ViewBag.Module_id, module_name = @ViewBag.MName })</td>
+                        </tr>
+
+                    }
+                }
+                catch (Exception E)
+                {
+
+                <td>....</td>
+            }
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.req_id }) |@Html.DisplayFor(model => model.list_module_name_table.name_of_module)*@
+        @Html.ActionLink("Back to Home Page", "Index")
+    </p>
+    @*render javascript*@
+    @section Scripts
+{
+        <script>
+        var navbar_name = document.getElementById("navbar-brand");
+            navbar_name.innerHTML = "@ViewBag.MName";
+
+
+        const div = document.createElement('div');
+
+                div.className = 'row';
+
+                div.innerHTML = `
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item active">
+                                            @Html.ActionLink("RTM", "LinkRTM", new { id = @ViewBag.Module_id, module_name = @ViewBag.MName },new { @class= "nav-link" })                                            
+                                        </li>
+                                        <li class="nav-item">
+                                            @Html.ActionLink("Test Scenario", "test_scenario", new { id = @ViewBag.Module_id, module_name = @ViewBag.MName },new { @class= "nav-link" })
+                                        </li>
+                                         <li class="nav-item">
+                                           <a class="nav-link" href="#">Test Case</a>
+                                         </li>
+                                    </ul>
+                                </div>
+                                `;
+
+                document.getElementById('navbar').appendChild(div);
+
+
+
+
+
+        </script>
+
+    }

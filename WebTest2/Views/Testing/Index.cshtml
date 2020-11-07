@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebTest2.Models.list_module_name_table>
+
+@{
+    ViewBag.Title = "Module List";
+}
+
+<h2>Module List</h2>
+
+<button type="button" class="btn btn-light">@Html.ActionLink("Add New Module", "add_new_module")</button>
+
+@if (TempData["Message"] != null && TempData["Status"].ToString() == "true")
+{
+    <div class="alert alert-success" role="alert">
+            @TempData["Message"].ToString()
+    </div>    
+}
+
+
+<h5 style="font-weight:bold">Module List</h5>
+<div class="container-fluid">
+    <div class="row">
+        @try
+        {
+            foreach (var item in Model)
+            {
+
+
+                <div class="col-md-4 col-xl-3">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <h4 class="m-b-20">@Html.DisplayFor(modelItem => item.name_of_module)</h4>
+                            <p class="m-b-0"><span class="f-right">
+    @Html.ActionLink("Link", "LinkRTM", new { id = item.module_id, module_name = item.name_of_module }, new { @class = "text-dark" })
+    @Html.ActionLink("Edit", "EditRTM", new { id = item.module_id, module_name = item.name_of_module }, new { @class = "text-dark" })
+    @Html.ActionLink("Delete", "DelModule", new { id = item.module_id, module_name = item.name_of_module }, new { @class = "text-dark" })
+                        </span></p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            }
+        }
+        catch (Exception ex)
+        {
+            <td>Table is no data</td>
+        }
+
+    </div>
+</div>
+
+
+
+
+

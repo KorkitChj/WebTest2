@@ -1,0 +1,19 @@
+﻿/* single-row column design */
+tr {
+    display: block;
+    float: left;
+}
+
+th,td {
+    display: block;
+    border: 1px solid black;
+}
+
+/* border-collapse */
+tr > *:not(:first-child) {
+    border-top: 0;
+}
+
+tr:not(:first-child) > * {
+    border-left: 0;
+}

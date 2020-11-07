@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Testing on Web R1</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    @*<script src="~/Scripts/modernizr-2.8.3.js"></script>*@
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top" id="navbar">
+        @Html.ActionLink("Testing on Web R1", "Index", "Testing", new { area = "" }, new { @class = "navbar-brand",@id = "navbar-brand" })
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Testing on Web R1</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
+@RenderSection("scripts", required: false)

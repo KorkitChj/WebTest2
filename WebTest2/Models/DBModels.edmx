@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="factors_name_table">
+          <Key>
+            <PropertyRef Name="fn_id" />
+          </Key>
+          <Property Name="fn_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fn_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="module_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="items_in_factor_table">
+          <Key>
+            <PropertyRef Name="iif_id" />
+          </Key>
+          <Property Name="iif_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="item" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fn_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="list_module_name_table">
+          <Key>
+            <PropertyRef Name="module_id" />
+          </Key>
+          <Property Name="module_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_of_module" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rtm_table">
+          <Key>
+            <PropertyRef Name="req_id" />
+          </Key>
+          <Property Name="req_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="req_description" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="design_specification_reference_number" Type="int" Nullable="false" />
+          <Property Name="program_module" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="test_reference_number" Type="int" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="status_date" Type="datetime" Nullable="false" />
+          <Property Name="comments" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="module_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="test_case_table">
+          <Key>
+            <PropertyRef Name="test_case_id" />
+          </Key>
+          <Property Name="test_case_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="test_case_data" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="expected_result" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="test_round" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="result" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="test_by" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="path_test_case" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="path_expected_result" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="test_scenario_table">
+          <Key>
+            <PropertyRef Name="test_scenario_id" />
+          </Key>
+          <Property Name="test_scenario_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="scenario_message" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="test_case_id" Type="int" Nullable="false" />
+          <Property Name="iif_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_factors_name_table_factors_name_table">
+          <End Role="list_module_name_table" Type="Self.list_module_name_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="factors_name_table" Type="Self.factors_name_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="list_module_name_table">
+              <PropertyRef Name="module_id" />
+            </Principal>
+            <Dependent Role="factors_name_table">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_items_in_factor_table_factors_name_table">
+          <End Role="factors_name_table" Type="Self.factors_name_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="items_in_factor_table" Type="Self.items_in_factor_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="factors_name_table">
+              <PropertyRef Name="fn_id" />
+            </Principal>
+            <Dependent Role="items_in_factor_table">
+              <PropertyRef Name="fn_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rtm_table_list_module_name_table">
+          <End Role="list_module_name_table" Type="Self.list_module_name_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="rtm_table" Type="Self.rtm_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="list_module_name_table">
+              <PropertyRef Name="module_id" />
+            </Principal>
+            <Dependent Role="rtm_table">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_test_scenario_table_items_in_factor_table">
+          <End Role="items_in_factor_table" Type="Self.items_in_factor_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="test_scenario_table" Type="Self.test_scenario_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items_in_factor_table">
+              <PropertyRef Name="iif_id" />
+            </Principal>
+            <Dependent Role="test_scenario_table">
+              <PropertyRef Name="iif_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_test_scenario_table_test_case_table">
+          <End Role="test_case_table" Type="Self.test_case_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="test_scenario_table" Type="Self.test_scenario_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="test_case_table">
+              <PropertyRef Name="test_case_id" />
+            </Principal>
+            <Dependent Role="test_scenario_table">
+              <PropertyRef Name="test_case_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="factors_name_table" EntityType="Self.factors_name_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="items_in_factor_table" EntityType="Self.items_in_factor_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="list_module_name_table" EntityType="Self.list_module_name_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rtm_table" EntityType="Self.rtm_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="test_case_table" EntityType="Self.test_case_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="test_scenario_table" EntityType="Self.test_scenario_table" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_factors_name_table_factors_name_table" Association="Self.FK_factors_name_table_factors_name_table">
+            <End Role="list_module_name_table" EntitySet="list_module_name_table" />
+            <End Role="factors_name_table" EntitySet="factors_name_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_items_in_factor_table_factors_name_table" Association="Self.FK_items_in_factor_table_factors_name_table">
+            <End Role="factors_name_table" EntitySet="factors_name_table" />
+            <End Role="items_in_factor_table" EntitySet="items_in_factor_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rtm_table_list_module_name_table" Association="Self.FK_rtm_table_list_module_name_table">
+            <End Role="list_module_name_table" EntitySet="list_module_name_table" />
+            <End Role="rtm_table" EntitySet="rtm_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_test_scenario_table_items_in_factor_table" Association="Self.FK_test_scenario_table_items_in_factor_table">
+            <End Role="items_in_factor_table" EntitySet="items_in_factor_table" />
+            <End Role="test_scenario_table" EntitySet="test_scenario_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_test_scenario_table_test_case_table" Association="Self.FK_test_scenario_table_test_case_table">
+            <End Role="test_case_table" EntitySet="test_case_table" />
+            <End Role="test_scenario_table" EntitySet="test_scenario_table" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="factors_name_table">
+          <Key>
+            <PropertyRef Name="fn_id" />
+          </Key>
+          <Property Name="fn_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fn_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="module_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="list_module_name_table" Relationship="Self.FK_factors_name_table_factors_name_table" FromRole="factors_name_table" ToRole="list_module_name_table" />
+          <NavigationProperty Name="items_in_factor_table" Relationship="Self.FK_items_in_factor_table_factors_name_table" FromRole="factors_name_table" ToRole="items_in_factor_table" />
+        </EntityType>
+        <EntityType Name="items_in_factor_table">
+          <Key>
+            <PropertyRef Name="iif_id" />
+          </Key>
+          <Property Name="iif_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="item" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fn_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="factors_name_table" Relationship="Self.FK_items_in_factor_table_factors_name_table" FromRole="items_in_factor_table" ToRole="factors_name_table" />
+          <NavigationProperty Name="test_scenario_table" Relationship="Self.FK_test_scenario_table_items_in_factor_table" FromRole="items_in_factor_table" ToRole="test_scenario_table" />
+        </EntityType>
+        <EntityType Name="list_module_name_table">
+          <Key>
+            <PropertyRef Name="module_id" />
+          </Key>
+          <Property Name="module_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_of_module" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="factors_name_table" Relationship="Self.FK_factors_name_table_factors_name_table" FromRole="list_module_name_table" ToRole="factors_name_table" />
+          <NavigationProperty Name="rtm_table" Relationship="Self.FK_rtm_table_list_module_name_table" FromRole="list_module_name_table" ToRole="rtm_table" />
+        </EntityType>
+        <EntityType Name="rtm_table">
+          <Key>
+            <PropertyRef Name="req_id" />
+          </Key>
+          <Property Name="req_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="req_description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="design_specification_reference_number" Type="Int32" Nullable="false" />
+          <Property Name="program_module" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="test_reference_number" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="status_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="comments" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="module_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="list_module_name_table" Relationship="Self.FK_rtm_table_list_module_name_table" FromRole="rtm_table" ToRole="list_module_name_table" />
+        </EntityType>
+        <EntityType Name="test_case_table">
+          <Key>
+            <PropertyRef Name="test_case_id" />
+          </Key>
+          <Property Name="test_case_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="test_case_data" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="expected_result" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="test_round" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="result" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="test_by" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="path_test_case" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="path_expected_result" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="test_scenario_table" Relationship="Self.FK_test_scenario_table_test_case_table" FromRole="test_case_table" ToRole="test_scenario_table" />
+        </EntityType>
+        <EntityType Name="test_scenario_table">
+          <Key>
+            <PropertyRef Name="test_scenario_id" />
+          </Key>
+          <Property Name="test_scenario_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="scenario_message" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="test_case_id" Type="Int32" Nullable="false" />
+          <Property Name="iif_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="items_in_factor_table" Relationship="Self.FK_test_scenario_table_items_in_factor_table" FromRole="test_scenario_table" ToRole="items_in_factor_table" />
+          <NavigationProperty Name="test_case_table" Relationship="Self.FK_test_scenario_table_test_case_table" FromRole="test_scenario_table" ToRole="test_case_table" />
+        </EntityType>
+        <Association Name="FK_factors_name_table_factors_name_table">
+          <End Role="list_module_name_table" Type="Self.list_module_name_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="factors_name_table" Type="Self.factors_name_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="list_module_name_table">
+              <PropertyRef Name="module_id" />
+            </Principal>
+            <Dependent Role="factors_name_table">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_items_in_factor_table_factors_name_table">
+          <End Role="factors_name_table" Type="Self.factors_name_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="items_in_factor_table" Type="Self.items_in_factor_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="factors_name_table">
+              <PropertyRef Name="fn_id" />
+            </Principal>
+            <Dependent Role="items_in_factor_table">
+              <PropertyRef Name="fn_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_test_scenario_table_items_in_factor_table">
+          <End Role="items_in_factor_table" Type="Self.items_in_factor_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="test_scenario_table" Type="Self.test_scenario_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items_in_factor_table">
+              <PropertyRef Name="iif_id" />
+            </Principal>
+            <Dependent Role="test_scenario_table">
+              <PropertyRef Name="iif_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rtm_table_list_module_name_table">
+          <End Role="list_module_name_table" Type="Self.list_module_name_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="rtm_table" Type="Self.rtm_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="list_module_name_table">
+              <PropertyRef Name="module_id" />
+            </Principal>
+            <Dependent Role="rtm_table">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_test_scenario_table_test_case_table">
+          <End Role="test_case_table" Type="Self.test_case_table" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="test_scenario_table" Type="Self.test_scenario_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="test_case_table">
+              <PropertyRef Name="test_case_id" />
+            </Principal>
+            <Dependent Role="test_scenario_table">
+              <PropertyRef Name="test_case_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModels" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="factors_name_table" EntityType="Self.factors_name_table" />
+          <EntitySet Name="items_in_factor_table" EntityType="Self.items_in_factor_table" />
+          <EntitySet Name="list_module_name_table" EntityType="Self.list_module_name_table" />
+          <EntitySet Name="rtm_table" EntityType="Self.rtm_table" />
+          <EntitySet Name="test_case_table" EntityType="Self.test_case_table" />
+          <EntitySet Name="test_scenario_table" EntityType="Self.test_scenario_table" />
+          <AssociationSet Name="FK_factors_name_table_factors_name_table" Association="Self.FK_factors_name_table_factors_name_table">
+            <End Role="list_module_name_table" EntitySet="list_module_name_table" />
+            <End Role="factors_name_table" EntitySet="factors_name_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_items_in_factor_table_factors_name_table" Association="Self.FK_items_in_factor_table_factors_name_table">
+            <End Role="factors_name_table" EntitySet="factors_name_table" />
+            <End Role="items_in_factor_table" EntitySet="items_in_factor_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_test_scenario_table_items_in_factor_table" Association="Self.FK_test_scenario_table_items_in_factor_table">
+            <End Role="items_in_factor_table" EntitySet="items_in_factor_table" />
+            <End Role="test_scenario_table" EntitySet="test_scenario_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rtm_table_list_module_name_table" Association="Self.FK_rtm_table_list_module_name_table">
+            <End Role="list_module_name_table" EntitySet="list_module_name_table" />
+            <End Role="rtm_table" EntitySet="rtm_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_test_scenario_table_test_case_table" Association="Self.FK_test_scenario_table_test_case_table">
+            <End Role="test_case_table" EntitySet="test_case_table" />
+            <End Role="test_scenario_table" EntitySet="test_scenario_table" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBModels">
+          <EntitySetMapping Name="factors_name_table">
+            <EntityTypeMapping TypeName="DBModel.factors_name_table">
+              <MappingFragment StoreEntitySet="factors_name_table">
+                <ScalarProperty Name="fn_id" ColumnName="fn_id" />
+                <ScalarProperty Name="fn_name" ColumnName="fn_name" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="items_in_factor_table">
+            <EntityTypeMapping TypeName="DBModel.items_in_factor_table">
+              <MappingFragment StoreEntitySet="items_in_factor_table">
+                <ScalarProperty Name="iif_id" ColumnName="iif_id" />
+                <ScalarProperty Name="item" ColumnName="item" />
+                <ScalarProperty Name="fn_id" ColumnName="fn_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="list_module_name_table">
+            <EntityTypeMapping TypeName="DBModel.list_module_name_table">
+              <MappingFragment StoreEntitySet="list_module_name_table">
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+                <ScalarProperty Name="name_of_module" ColumnName="name_of_module" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rtm_table">
+            <EntityTypeMapping TypeName="DBModel.rtm_table">
+              <MappingFragment StoreEntitySet="rtm_table">
+                <ScalarProperty Name="req_id" ColumnName="req_id" />
+                <ScalarProperty Name="req_description" ColumnName="req_description" />
+                <ScalarProperty Name="design_specification_reference_number" ColumnName="design_specification_reference_number" />
+                <ScalarProperty Name="program_module" ColumnName="program_module" />
+                <ScalarProperty Name="test_reference_number" ColumnName="test_reference_number" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="status_date" ColumnName="status_date" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="test_case_table">
+            <EntityTypeMapping TypeName="DBModel.test_case_table">
+              <MappingFragment StoreEntitySet="test_case_table">
+                <ScalarProperty Name="test_case_id" ColumnName="test_case_id" />
+                <ScalarProperty Name="test_case_data" ColumnName="test_case_data" />
+                <ScalarProperty Name="expected_result" ColumnName="expected_result" />
+                <ScalarProperty Name="test_round" ColumnName="test_round" />
+                <ScalarProperty Name="result" ColumnName="result" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="test_by" ColumnName="test_by" />
+                <ScalarProperty Name="path_test_case" ColumnName="path_test_case" />
+                <ScalarProperty Name="path_expected_result" ColumnName="path_expected_result" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="test_scenario_table">
+            <EntityTypeMapping TypeName="DBModel.test_scenario_table">
+              <MappingFragment StoreEntitySet="test_scenario_table">
+                <ScalarProperty Name="test_scenario_id" ColumnName="test_scenario_id" />
+                <ScalarProperty Name="scenario_message" ColumnName="scenario_message" />
+                <ScalarProperty Name="test_case_id" ColumnName="test_case_id" />
+                <ScalarProperty Name="iif_id" ColumnName="iif_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

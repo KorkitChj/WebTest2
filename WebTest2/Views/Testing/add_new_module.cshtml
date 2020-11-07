@@ -1,0 +1,41 @@
+﻿@model WebTest2.Models.list_module_name_table
+
+@{
+    ViewBag.Title = "Add New Module";
+}
+
+<h2>Add New Module</h2>
+
+@if(ViewBag.Status == "false" && ViewBag.Message != ""){
+<div class="alert alert-danger" role="alert">
+    @ViewBag.Message
+</div>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @*<h4>list_module_name_table</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.name_of_module, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+            <div class="col-md-10">
+                <label for="#name_of_module">Model Name</label>@Html.EditorFor(model => model.name_of_module, new { htmlAttributes = new { @class = "form-control", @id = "name_of_module" } })
+                @Html.ValidationMessageFor(model => model.name_of_module, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Home Page", "Index")
+</div>
